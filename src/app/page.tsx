@@ -18,9 +18,8 @@ export default function Home() {
   const [isSheetOpen, setIsSheetOpen] = React.useState(false);
   
   React.useEffect(() => {
-    const initialDate = new Date();
-    // This part is crucial for preventing the hydration error
-    setTimeout(() => setDate(initialDate), 0);
+    // Set initial date only on the client to avoid hydration mismatch
+    setDate(new Date());
 
     const fetchEvents = async () => {
       const allEvents = await getEvents();
