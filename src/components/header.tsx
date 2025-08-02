@@ -1,3 +1,4 @@
+
 "use client";
 
 import React, { useState, useEffect } from "react";
@@ -68,7 +69,7 @@ export function Header() {
   );
 
   const AuthButtons = () => (
-     <div className="flex items-center justify-end">
+     <div className="flex items-center">
           {isAuthenticated ? (
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
@@ -87,7 +88,7 @@ export function Header() {
               </DropdownMenuContent>
             </DropdownMenu>
           ) : (
-             <Button onClick={handleSignIn} variant="link" className="text-foreground font-bold p-0 h-auto">
+             <Button onClick={handleSignIn} variant="outline" className="text-foreground font-bold">
                 Sign up
             </Button>
           )}
@@ -102,14 +103,10 @@ export function Header() {
              <Logo />
         </div>
 
-        {/* Center Section: Navigation (Desktop) */}
-        <div className="hidden md:flex flex-2 justify-center">
+        {/* Right Section: Navigation & Auth (Desktop) */}
+        <div className="hidden md:flex flex-1 justify-end items-center gap-8">
             <NavMenu />
-        </div>
-
-        {/* Right Section: Auth (Desktop) */}
-        <div className="hidden md:flex flex-1 justify-end">
-             <AuthButtons />
+            <AuthButtons />
         </div>
             
         {/* Mobile Burger Menu */}
