@@ -17,8 +17,8 @@ export default function MapPage() {
                 <Image
                     src="/gik-map.jpg"
                     alt="Campus Map"
-                    layout="fill"
-                    objectFit="contain"
+                    fill
+                    style={{ objectFit: "contain" }}
                 />
             </div>
         </div>
