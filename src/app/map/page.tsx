@@ -6,6 +6,7 @@ import { getEvents } from "@/lib/events";
 import type { Event } from "@/lib/types";
 import { Skeleton } from "@/components/ui/skeleton";
 import "leaflet/dist/leaflet.css";
+import { Card } from "@/components/ui/card";
 
 // react-leaflet components are dynamically imported to prevent SSR issues
 import dynamic from 'next/dynamic';
@@ -48,7 +49,7 @@ export default function MapPage() {
     useEffect(() => {
         // Dynamically import leaflet on the client side
         import('leaflet').then(L => {
-            setIcon(new L.Icon({
+            const icon = new L.Icon({
                 iconUrl: 'https://unpkg.com/leaflet@1.7.1/dist/images/marker-icon.png',
                 iconRetinaUrl: 'https://unpkg.com/leaflet@1.7.1/dist/images/marker-icon-2x.png',
                 shadowUrl: 'https://unpkg.com/leaflet@1.7.1/dist/images/marker-shadow.png',
@@ -56,7 +57,8 @@ export default function MapPage() {
                 iconAnchor: [12, 41],
                 popupAnchor: [1, -34],
                 shadowSize: [41, 41]
-            }));
+            });
+            setIcon(() => icon); // Use a function to prevent re-renders
         });
         
         const fetchEvents = async () => {
@@ -73,7 +75,15 @@ export default function MapPage() {
     if (loading || !Icon) {
         return (
             <div className="container py-8 sm:py-12">
-                <Skeleton className="h-[600px] w-full" />
+                 <section className="mb-8">
+                    <h1 className="text-4xl sm:text-5xl font-bold tracking-tight text-foreground">
+                        Campus Event Map
+                    </h1>
+                    <p className="mt-3 max-w-2xl text-lg text-muted-foreground">
+                        Find events happening across the university on our interactive map.
+                    </p>
+                </section>
+                <Skeleton className="h-[600px] w-full rounded-lg" />
             </div>
         );
     }
@@ -112,9 +122,4 @@ export default function MapPage() {
             </Card>
         </div>
     );
-}
-
-// Simple Card component to wrap the map
-function Card({ children, className }: { children: React.ReactNode, className?: string }) {
-    return <div className={`bg-card text-card-foreground rounded-lg border shadow-sm ${className}`}>{children}</div>
 }
