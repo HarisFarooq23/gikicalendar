@@ -4,7 +4,7 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Menu, X, School, ArrowRight } from "lucide-react";
+import { Menu, X, ArrowRight } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -28,8 +28,7 @@ export function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const Logo = () => (
-     <Link href="/" className="flex items-center space-x-2">
-        <School className="h-8 w-8 text-primary" />
+     <Link href="/" className="flex items-center">
         <span className="font-bold text-3xl whitespace-nowrap">
             <span className="text-foreground">Giki</span>
             <span className="text-primary">Calendar</span>
