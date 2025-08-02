@@ -7,6 +7,7 @@ import type { Event } from "@/lib/types";
 import { EventDetails } from "@/components/event-details";
 import { isSameDay } from "date-fns";
 import { Card } from "@/components/ui/card";
+import { format } from "date-fns";
 
 export default function Home() {
   const [date, setDate] = React.useState<Date | undefined>(new Date());
@@ -49,7 +50,7 @@ export default function Home() {
       </section>
 
       <div className="flex justify-center">
-        <Card className="w-full max-w-4xl p-0 sm:p-0 shadow-lg border-0 bg-transparent">
+        <Card className="w-full max-w-4xl p-4 sm:p-6 shadow-lg border-0 bg-transparent">
           <Calendar
             mode="single"
             selected={date}
@@ -77,11 +78,11 @@ export default function Home() {
               }
             }}
             components={{
-              DayContent: ({ date, ...props }) => {
+              DayContent: ({ date }) => {
                 const hasEvent = eventDates.some(eventDate => isSameDay(date, eventDate));
                 return (
                   <div className="relative h-full w-full flex items-center justify-center">
-                    <span>{props.children}</span>
+                    <span>{format(date, "d")}</span>
                     {hasEvent && <div className="absolute bottom-2 h-1.5 w-1.5 rounded-full bg-accent" />}
                   </div>
                 );
