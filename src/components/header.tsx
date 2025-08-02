@@ -44,7 +44,7 @@ export function Header() {
      <Link href="/" className="flex items-center space-x-2">
         <AppWindow className="h-8 w-8 text-foreground" />
         <span className="font-bold text-3xl whitespace-nowrap">
-            <span className="text-foreground">Giki</span>
+            <span className={pathname === '/' ? 'text-white' : 'text-foreground'}>Giki</span>
             <span className="text-primary">Calendar</span>
         </span>
     </Link>
@@ -62,7 +62,7 @@ export function Header() {
             onClick={() => isMobile && setIsMobileMenuOpen(false)}
             className={cn(
             "transition-colors hover:text-primary",
-            pathname === href ? "text-foreground font-bold" : "text-muted-foreground",
+            pathname === href ? "text-white font-bold" : "text-muted-foreground",
              isMobile && "text-lg"
             )}
         >
@@ -102,9 +102,9 @@ export function Header() {
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border/50 bg-background/50 backdrop-blur-sm">
       <div className="container flex h-16 items-center">
-        {/* Left Section */}
+        {/* Left Section for Mobile Burger or Desktop Spacer */}
         <div className="flex-1 flex justify-start">
-             {/* Mobile Burger Menu */}
+            {/* Mobile Burger Menu */}
             <div className="md:hidden">
               {isClient && (
                 <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
@@ -134,8 +134,8 @@ export function Header() {
             </div>
         </div>
 
-        {/* Center Section: Logo */}
-        <div className="flex-1 flex justify-center">
+        {/* Center Section: Logo (slightly left-biased) */}
+        <div className="flex-none flex justify-center">
              <div className="hidden md:flex">
                 <Logo />
              </div>
