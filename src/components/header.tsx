@@ -36,11 +36,8 @@ export function Header() {
 
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <div className="container flex h-16 items-center">
-        <Link href="/" className="mr-6 flex items-center space-x-2">
-          <span className="hidden font-bold sm:inline-block text-primary">GikiCalendar</span>
-        </Link>
-        <nav className="hidden items-center space-x-6 text-sm font-medium md:flex">
+      <div className="container flex h-16 items-center justify-between">
+        <nav className="hidden items-center gap-6 text-sm font-medium md:flex">
           {navLinks.map(({ href, label }) => (
             <Link
               key={href}
@@ -54,7 +51,52 @@ export function Header() {
             </Link>
           ))}
         </nav>
-        <div className="flex flex-1 items-center justify-end space-x-4">
+        
+        {/* Mobile Menu (Hamburger) */}
+        <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
+          <SheetTrigger asChild>
+            <Button variant="ghost" className="md:hidden" size="icon">
+              <Menu className="h-5 w-5" />
+              <span className="sr-only">Open menu</span>
+            </Button>
+          </SheetTrigger>
+          <SheetContent side="left">
+            <div className="flex flex-col h-full">
+                <div className="flex items-center justify-between pb-4 border-b">
+                <Link href="/" className="flex items-center space-x-2" onClick={() => setIsMobileMenuOpen(false)}>
+                  <span className="font-bold text-primary">GikiCalendar</span>
+                </Link>
+                <Button variant="ghost" size="icon" onClick={() => setIsMobileMenuOpen(false)}>
+                  <X className="h-5 w-5" />
+                  <span className="sr-only">Close menu</span>
+                </Button>
+              </div>
+              <nav className="flex flex-col gap-4 mt-6">
+                {navLinks.map(({ href, label }) => (
+                  <Link
+                    key={href}
+                    href={href}
+                    onClick={() => setIsMobileMenuOpen(false)}
+                    className={cn(
+                      "text-lg font-medium transition-colors hover:text-primary",
+                      pathname === href ? "text-primary" : "text-muted-foreground"
+                    )}
+                  >
+                    {label}
+                  </Link>
+                ))}
+              </nav>
+            </div>
+          </SheetContent>
+        </Sheet>
+
+        <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
+            <Link href="/" className="flex items-center space-x-2">
+                <span className="font-bold text-xl sm:text-2xl text-primary whitespace-nowrap">GikiCalendar</span>
+            </Link>
+        </div>
+
+        <div className="flex items-center justify-end space-x-4">
           {isAuthenticated ? (
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
@@ -74,46 +116,9 @@ export function Header() {
             </DropdownMenu>
           ) : (
              <Button onClick={handleSignIn} size="sm">
-                Sign In with Google
+                Sign In
             </Button>
           )}
-
-          <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
-            <SheetTrigger asChild>
-              <Button variant="ghost" className="md:hidden" size="icon">
-                <Menu className="h-5 w-5" />
-                <span className="sr-only">Open menu</span>
-              </Button>
-            </SheetTrigger>
-            <SheetContent side="left">
-              <div className="flex flex-col h-full">
-                 <div className="flex items-center justify-between pb-4 border-b">
-                  <Link href="/" className="flex items-center space-x-2" onClick={() => setIsMobileMenuOpen(false)}>
-                    <span className="font-bold text-primary">GikiCalendar</span>
-                  </Link>
-                  <Button variant="ghost" size="icon" onClick={() => setIsMobileMenuOpen(false)}>
-                    <X className="h-5 w-5" />
-                    <span className="sr-only">Close menu</span>
-                  </Button>
-                </div>
-                <nav className="flex flex-col gap-4 mt-6">
-                  {navLinks.map(({ href, label }) => (
-                    <Link
-                      key={href}
-                      href={href}
-                      onClick={() => setIsMobileMenuOpen(false)}
-                      className={cn(
-                        "text-lg font-medium transition-colors hover:text-primary",
-                        pathname === href ? "text-primary" : "text-muted-foreground"
-                      )}
-                    >
-                      {label}
-                    </Link>
-                  ))}
-                </nav>
-              </div>
-            </SheetContent>
-          </Sheet>
         </div>
       </div>
     </header>
