@@ -92,10 +92,22 @@ export function Header() {
               </DropdownMenuContent>
             </DropdownMenu>
           ) : (
-             <Button onClick={handleSignIn}>
-                Sign Up
-                <ArrowRight />
-            </Button>
+             <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                    <Button>
+                        Sign Up
+                        <ArrowRight />
+                    </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end">
+                    <DropdownMenuItem asChild>
+                        <Link href="/signup/user">User Signup</Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem asChild>
+                        <Link href="/signup/moderator">Moderator Signup</Link>
+                    </DropdownMenuItem>
+                </DropdownMenuContent>
+             </DropdownMenu>
           )}
         </div>
   );
