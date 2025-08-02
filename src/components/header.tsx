@@ -30,10 +30,8 @@ export function Header() {
   const pathname = usePathname();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-
-  // This effect will be removed, but for now it avoids hydration errors
-  // by ensuring the server and client render the same initial UI.
   const [isClient, setIsClient] = useState(false);
+  
   useEffect(() => {
     setIsClient(true);
   }, []);
@@ -44,8 +42,8 @@ export function Header() {
 
   const Logo = () => (
      <Link href="/" className="flex items-center space-x-2">
-        <AppWindow className="h-6 w-6 text-foreground" />
-        <span className="font-bold text-lg text-foreground whitespace-nowrap">GikiCalendar</span>
+        <AppWindow className="h-8 w-8 text-foreground" />
+        <span className="font-bold text-2xl text-foreground whitespace-nowrap">GikiCalendar</span>
     </Link>
   );
 
@@ -101,45 +99,57 @@ export function Header() {
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border/50 bg-background/50 backdrop-blur-sm">
       <div className="container flex h-16 items-center">
-        {/* Left Section: Logo */}
-        <div className="flex-[0.8] flex justify-start">
-             <Logo />
+        {/* Left Section */}
+        <div className="flex-1 flex justify-start">
+             {/* Mobile Burger Menu */}
+            <div className="md:hidden">
+              {isClient && (
+                <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
+                <SheetTrigger asChild>
+                    <Button variant="ghost" size="icon">
+                    <Menu className="h-5 w-5" />
+                    <span className="sr-only">Open menu</span>
+                    </Button>
+                </SheetTrigger>
+                <SheetContent side="left">
+                    <div className="flex flex-col h-full">
+                    <div className="flex items-center justify-between pb-4 border-b">
+                        <Logo />
+                        <Button variant="ghost" size="icon" onClick={() => setIsMobileMenuOpen(false)}>
+                        <X className="h-5 w-5" />
+                        <span className="sr-only">Close menu</span>
+                        </Button>
+                    </div>
+                    <NavMenu isMobile={true} />
+                        <div className="mt-auto pb-4">
+                        <AuthButtons />
+                    </div>
+                    </div>
+                </SheetContent>
+                </Sheet>
+              )}
+            </div>
+        </div>
+
+        {/* Center Section: Logo */}
+        <div className="flex-1 flex justify-center">
+             <div className="hidden md:flex">
+                <Logo />
+             </div>
         </div>
 
         {/* Right Section: Navigation & Auth (Desktop) */}
-        <div className="hidden md:flex items-center gap-8 justify-end flex-1">
-            <NavMenu />
-            <AuthButtons />
+        <div className="flex-1 flex justify-end">
+            <div className="hidden md:flex items-center gap-8">
+                <NavMenu />
+                <AuthButtons />
+            </div>
+            {/* Logo for Mobile */}
+            <div className="md:hidden">
+                <Logo />
+            </div>
         </div>
             
-        {/* Mobile Burger Menu */}
-        <div className="md:hidden flex flex-1 justify-end">
-          {isClient && (
-            <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
-            <SheetTrigger asChild>
-                <Button variant="ghost" size="icon">
-                <Menu className="h-5 w-5" />
-                <span className="sr-only">Open menu</span>
-                </Button>
-            </SheetTrigger>
-            <SheetContent side="left">
-                <div className="flex flex-col h-full">
-                <div className="flex items-center justify-between pb-4 border-b">
-                    <Logo />
-                    <Button variant="ghost" size="icon" onClick={() => setIsMobileMenuOpen(false)}>
-                    <X className="h-5 w-5" />
-                    <span className="sr-only">Close menu</span>
-                    </Button>
-                </div>
-                <NavMenu isMobile={true} />
-                    <div className="mt-auto pb-4">
-                    <AuthButtons />
-                </div>
-                </div>
-            </SheetContent>
-            </Sheet>
-          )}
-        </div>
       </div>
     </header>
   );
