@@ -4,7 +4,7 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Menu, X, AppWindow, ArrowRight } from "lucide-react";
+import { Menu, X, CalendarDays, ArrowRight } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -42,7 +42,7 @@ export function Header() {
 
   const Logo = () => (
      <Link href="/" className="flex items-center space-x-2">
-        <AppWindow className="h-8 w-8 text-foreground" />
+        <CalendarDays className="h-8 w-8 text-primary" />
         <span className="font-bold text-3xl whitespace-nowrap">
             <span className={pathname === '/' ? 'text-white' : 'text-foreground'}>Giki</span>
             <span className="text-primary">Calendar</span>
@@ -121,7 +121,7 @@ export function Header() {
         </div>
 
         {/* Center Section: Navigation (Desktop) */}
-        <div className="flex-none justify-center hidden md:flex">
+        <div className="hidden md:flex">
             <NavMenu />
         </div>
 
