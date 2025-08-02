@@ -50,7 +50,7 @@ export default function Home() {
       </section>
 
       <div className="flex justify-center">
-        <Card className="w-full max-w-4xl p-4 sm:p-6 shadow-lg border-0 bg-transparent">
+        <Card className="w-full max-w-4xl p-4 sm:p-6 shadow-lg border-border bg-background/50 backdrop-blur-sm">
           <Calendar
             mode="single"
             selected={date}
