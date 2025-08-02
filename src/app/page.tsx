@@ -12,15 +12,12 @@ import { format } from "date-fns";
 
 
 export default function Home() {
-  const [date, setDate] = React.useState<Date | undefined>(undefined);
+  const [date, setDate] = React.useState<Date | undefined>(new Date());
   const [events, setEvents] = React.useState<Event[]>([]);
   const [selectedDateEvents, setSelectedDateEvents] = React.useState<Event[]>([]);
   const [isSheetOpen, setIsSheetOpen] = React.useState(false);
   
   React.useEffect(() => {
-    // Set initial date only on the client to avoid hydration mismatch
-    setDate(new Date());
-
     const fetchEvents = async () => {
       const allEvents = await getEvents();
       setEvents(allEvents);
@@ -93,7 +90,6 @@ export default function Home() {
                 );
               },
             }}
-            disabled={!date}
           />
         </Card>
       </div>
