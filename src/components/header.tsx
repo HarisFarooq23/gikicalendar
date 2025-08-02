@@ -31,6 +31,14 @@ export function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
+  // This effect will be removed, but for now it avoids hydration errors
+  // by ensuring the server and client render the same initial UI.
+  const [isClient, setIsClient] = useState(false);
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+
+
   const handleSignIn = () => setIsAuthenticated(true);
   const handleSignOut = () => setIsAuthenticated(false);
 
@@ -92,20 +100,21 @@ export function Header() {
 
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border/50 bg-background/50 backdrop-blur-sm">
-      <div className="container flex h-16 items-center justify-between">
-         {/* Left Section: Logo */}
-        <div className="flex justify-start">
+      <div className="container flex h-16 items-center">
+        {/* Left Section: Logo */}
+        <div className="flex-[0.8] flex justify-start">
              <Logo />
         </div>
 
         {/* Right Section: Navigation & Auth (Desktop) */}
-        <div className="hidden md:flex items-center gap-8">
+        <div className="hidden md:flex items-center gap-8 justify-end flex-1">
             <NavMenu />
             <AuthButtons />
         </div>
             
         {/* Mobile Burger Menu */}
-        <div className="md:hidden flex justify-end">
+        <div className="md:hidden flex flex-1 justify-end">
+          {isClient && (
             <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
             <SheetTrigger asChild>
                 <Button variant="ghost" size="icon">
@@ -129,6 +138,7 @@ export function Header() {
                 </div>
             </SheetContent>
             </Sheet>
+          )}
         </div>
       </div>
     </header>
