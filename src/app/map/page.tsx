@@ -18,15 +18,25 @@ const Popup = dynamic(() => import('react-leaflet').then(mod => mod.Popup), { ss
 // A mapping from location names to coordinates.
 // In a real app, this might come from a database or a separate configuration file.
 const locationCoordinates: Record<string, [number, number]> = {
-    'Engineering Building, Auditorium A': [33.9928, 72.4736],
-    'Business School, Room 301': [33.9935, 72.4741],
-    'University Sports Complex': [33.9905, 72.4718],
-    'Central Library, Screening Room': [33.9911, 72.4755],
-    'University Grand Ballroom': [33.9942, 72.4760],
-    'Student Union, Cafe': [33.9919, 72.4748],
-    'Science Center, Lab 5': [33.9922, 72.4729],
-    'Humanities Building, Lecture Hall 2': [33.9908, 72.4765],
-    'Main Quad': [33.9925, 72.4750],
+    'Faculty Club': [33.9931, 72.4729],
+    'Library': [33.9928, 72.4741],
+    'Brabers Building': [33.9926, 72.4752],
+    'Medical Centre & Girls Hostel': [33.9923, 72.4763],
+    'Auditorium': [33.9918, 72.4746],
+    'FCME': [33.9913, 72.4754],
+    'TUC': [33.9911, 72.4770],
+    'Guest House': [33.9899, 72.4772],
+    'LOGIK': [33.9902, 72.4761],
+    'Main Gate': [33.9897, 72.4750],
+    'Admin Block': [33.9904, 72.4740],
+    'Sports Ground': [33.9907, 72.4730],
+    'Sports Complex': [33.9909, 72.4719],
+    'Mess & Mosque': [33.9918, 72.4715],
+    'Boys Hostels': [33.9929, 72.4705],
+    'Academic Block': [33.9925, 72.4723],
+    'FES': [33.9915, 72.4728],
+    'FEE': [33.9911, 72.4738],
+    'FME': [33.9915, 72.4746],
 };
 
 
@@ -58,7 +68,7 @@ export default function MapPage() {
         fetchEvents();
     }, []);
 
-    const mapCenter: [number, number] = [33.9925, 72.4750]; // Centered on the Main Quad
+    const mapCenter: [number, number] = [33.9915, 72.4740]; // Centered on the GIK Institute
 
     if (loading || !Icon) {
         return (
