@@ -4,7 +4,7 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Menu, X, AppWindow } from "lucide-react";
+import { Menu, X, AppWindow, ArrowRight } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -73,7 +73,7 @@ export function Header() {
   );
 
   const AuthButtons = () => (
-     <div className="flex items-center">
+     <div className="flex items-center gap-4">
           {isAuthenticated ? (
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
@@ -92,8 +92,9 @@ export function Header() {
               </DropdownMenuContent>
             </DropdownMenu>
           ) : (
-             <Button onClick={handleSignIn} variant="outline" className="text-foreground font-bold">
-                Sign up
+             <Button onClick={handleSignIn}>
+                Sign Up
+                <ArrowRight />
             </Button>
           )}
         </div>
@@ -102,8 +103,22 @@ export function Header() {
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border/50 bg-background/50 backdrop-blur-sm">
       <div className="container flex h-16 items-center">
-        {/* Left Section for Mobile Burger or Desktop Spacer */}
+        {/* Left Section: Logo */}
         <div className="flex-1 flex justify-start">
+            <Logo />
+        </div>
+
+        {/* Center Section: Navigation (Desktop) */}
+        <div className="flex-none justify-center hidden md:flex">
+            <NavMenu />
+        </div>
+
+        {/* Right Section: Auth & Mobile Burger */}
+        <div className="flex-1 flex justify-end">
+            <div className="hidden md:flex">
+                <AuthButtons />
+            </div>
+            
             {/* Mobile Burger Menu */}
             <div className="md:hidden">
               {isClient && (
@@ -131,25 +146,6 @@ export function Header() {
                 </SheetContent>
                 </Sheet>
               )}
-            </div>
-        </div>
-
-        {/* Center Section: Logo (slightly left-biased) */}
-        <div className="flex-none flex justify-center">
-             <div className="hidden md:flex">
-                <Logo />
-             </div>
-        </div>
-
-        {/* Right Section: Navigation & Auth (Desktop) */}
-        <div className="flex-1 flex justify-end">
-            <div className="hidden md:flex items-center gap-8">
-                <NavMenu />
-                <AuthButtons />
-            </div>
-            {/* Logo for Mobile */}
-            <div className="md:hidden">
-                <Logo />
             </div>
         </div>
             
