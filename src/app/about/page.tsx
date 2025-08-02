@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { CheckCircle } from "lucide-react";
+import { ImageFallback } from "@/components/image-fallback";
 
 const teamMembers = [
   {
@@ -31,6 +32,8 @@ const missionPoints = [
 ]
 
 export default function AboutPage() {
+  const missionImageIsPlaceholder = "https://placehold.co/600x600.png".includes('placehold.co');
+
   return (
     <div className="container py-12 sm:py-16">
       {/* Mission Section */}
@@ -50,13 +53,17 @@ export default function AboutPage() {
           </ul>
         </div>
         <div className="relative h-80 md:h-full w-full rounded-xl overflow-hidden shadow-lg">
-             <Image
-                src="https://placehold.co/600x600.png"
-                alt="Students collaborating"
-                fill
-                className="object-cover"
-                data-ai-hint="happy students campus"
-             />
+             {missionImageIsPlaceholder ? (
+                <ImageFallback text="Our Mission" />
+             ) : (
+                <Image
+                    src="https://placehold.co/600x600.png"
+                    alt="Students collaborating"
+                    fill
+                    className="object-cover"
+                    data-ai-hint="happy students campus"
+                />
+             )}
         </div>
       </section>
 
@@ -69,26 +76,33 @@ export default function AboutPage() {
           </p>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {teamMembers.map((member) => (
-            <Card key={member.name} className="text-center transition-all hover:shadow-xl hover:-translate-y-1 duration-300">
-              <CardHeader className="items-center">
-                <div className="relative h-24 w-24 rounded-full overflow-hidden">
-                    <Image
-                        src={member.avatar}
-                        alt={member.name}
-                        fill
-                        className="object-cover"
-                        data-ai-hint="professional headshot"
-                    />
-                </div>
-              </CardHeader>
-              <CardContent>
-                <CardTitle className="text-xl font-semibold">{member.name}</CardTitle>
-                <p className="text-primary font-medium mb-4">{member.role}</p>
-                <p className="text-muted-foreground text-sm">{member.bio}</p>
-              </CardContent>
-            </Card>
-          ))}
+          {teamMembers.map((member) => {
+            const isPlaceholder = member.avatar.includes('placehold.co');
+            return (
+                <Card key={member.name} className="text-center transition-all hover:shadow-xl hover:-translate-y-1 duration-300">
+                <CardHeader className="items-center p-0">
+                    <div className="relative h-24 w-24 rounded-full overflow-hidden">
+                        {isPlaceholder ? (
+                            <ImageFallback text={member.name} />
+                        ) : (
+                            <Image
+                                src={member.avatar}
+                                alt={member.name}
+                                fill
+                                className="object-cover"
+                                data-ai-hint="professional headshot"
+                            />
+                        )}
+                    </div>
+                </CardHeader>
+                <CardContent className="p-6">
+                    <CardTitle className="text-xl font-semibold">{member.name}</CardTitle>
+                    <p className="text-primary font-medium mb-4">{member.role}</p>
+                    <p className="text-muted-foreground text-sm">{member.bio}</p>
+                </CardContent>
+                </Card>
+            )
+          })}
         </div>
       </section>
     </div>

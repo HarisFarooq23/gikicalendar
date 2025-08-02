@@ -6,6 +6,7 @@ import type { Event } from "@/lib/types";
 import { Card, CardContent, CardHeader, CardTitle, CardFooter } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
+import { ImageFallback } from "./image-fallback";
 
 type EventCardProps = {
   event: Event;
@@ -21,17 +22,23 @@ const categoryStyles: Record<Event['category'], string> = {
 
 
 export function EventCard({ event }: EventCardProps) {
+  const isPlaceholder = event.image.includes('placehold.co');
+
   return (
     <Card className="w-full overflow-hidden transition-all hover:shadow-lg hover:-translate-y-1 duration-300 flex flex-col">
       <CardHeader className="p-0">
         <div className="relative aspect-video w-full">
-          <Image
-            src={event.image}
-            alt={event.title}
-            fill
-            className="object-cover"
-            data-ai-hint="event photo"
-          />
+           {isPlaceholder ? (
+             <ImageFallback text={event.title} />
+           ) : (
+             <Image
+                src={event.image}
+                alt={event.title}
+                fill
+                className="object-cover"
+                data-ai-hint="event photo"
+             />
+           )}
         </div>
       </CardHeader>
       <CardContent className="p-4 flex-grow flex flex-col">
