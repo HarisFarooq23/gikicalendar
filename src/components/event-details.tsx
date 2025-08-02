@@ -10,11 +10,20 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { Badge } from "@/components/ui/badge";
 import type { Event } from "@/lib/types";
 import { format } from "date-fns";
+import { cn } from "@/lib/utils";
 
 type EventDetailsProps = {
   events: Event[];
   isOpen: boolean;
   onOpenChange: (open: boolean) => void;
+};
+
+const categoryStyles: Record<Event['category'], string> = {
+    Academic: "bg-blue-500/10 text-blue-500 border-blue-500/20",
+    Social: "bg-purple-500/10 text-purple-500 border-purple-500/20",
+    Sports: "bg-green-500/10 text-green-500 border-green-500/20",
+    Cultural: "bg-yellow-500/10 text-yellow-500 border-yellow-500/20",
+    Workshop: "bg-pink-500/10 text-pink-500 border-pink-500/20",
 };
 
 export function EventDetails({ events, isOpen, onOpenChange }: EventDetailsProps) {
@@ -49,7 +58,9 @@ export function EventDetails({ events, isOpen, onOpenChange }: EventDetailsProps
                     <div>
                         <div className="flex items-center gap-4">
                             <h3 className="text-xl font-semibold">{event.title}</h3>
-                            <Badge variant="secondary">{event.category}</Badge>
+                            <Badge variant="outline" className={cn(categoryStyles[event.category])}>
+                              {event.category}
+                            </Badge>
                         </div>
                         <p className="text-sm text-muted-foreground font-medium">{event.society}</p>
                     </div>
