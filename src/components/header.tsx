@@ -94,15 +94,21 @@ export function Header() {
     <header className="sticky top-0 z-50 w-full border-b border-border/50 bg-transparent backdrop-blur-sm">
       <div className="container flex h-16 items-center justify-between">
         {/* Left Section: Logo */}
-        <div className="flex-1 flex justify-start">
+        <div className="flex items-center gap-6">
             <Logo />
         </div>
 
-        {/* Center Section: Navigation */}
-        <div className="flex-1 flex justify-center">
+        {/* Center Section: Navigation (Desktop) */}
+        <div className="hidden md:flex flex-1 items-center justify-center">
+            <NavMenu />
+        </div>
+
+        {/* Right Section: Auth (Desktop) & Mobile Menu Trigger */}
+        <div className="flex items-center gap-4">
             <div className="hidden md:block">
-                <NavMenu />
+                <AuthButtons />
             </div>
+            
             {/* Mobile Burger Menu */}
             <div className="md:hidden">
                 <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
@@ -136,16 +142,12 @@ export function Header() {
                         </Link>
                         ))}
                     </nav>
+                     <div className="mt-auto pb-4">
+                        <AuthButtons />
+                    </div>
                     </div>
                 </SheetContent>
                 </Sheet>
-            </div>
-        </div>
-
-        {/* Right Section: Auth */}
-        <div className="flex-1 flex justify-end">
-            <div className="hidden md:block">
-                <AuthButtons />
             </div>
         </div>
       </div>
