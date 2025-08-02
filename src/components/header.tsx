@@ -17,7 +17,6 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { useIsMobile } from "@/hooks/use-mobile";
 
 const navLinks = [
   { href: "/", label: "Home" },
@@ -46,15 +45,20 @@ export function Header() {
     </Link>
   );
 
-  const NavMenu = () => (
-    <nav className="hidden md:flex items-center gap-6 text-sm font-medium">
+  const NavMenu = ({isMobile = false}: {isMobile?: boolean}) => (
+    <nav className={cn(
+        "flex items-center gap-6 text-sm font-medium",
+        isMobile && "flex-col items-start gap-4 mt-6"
+    )}>
         {navLinks.map(({ href, label }) => (
         <Link
             key={href}
             href={href}
+            onClick={() => isMobile && setIsMobileMenuOpen(false)}
             className={cn(
             "transition-colors hover:text-primary",
-            pathname === href ? "text-primary" : "text-foreground"
+            pathname === href ? "text-primary font-bold" : "text-foreground",
+             isMobile && "text-lg"
             )}
         >
             {label}
@@ -64,7 +68,7 @@ export function Header() {
   );
 
   const AuthButtons = () => (
-     <div className="flex items-center justify-end space-x-4">
+     <div className="flex items-center justify-end">
           {isAuthenticated ? (
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
@@ -83,72 +87,56 @@ export function Header() {
               </DropdownMenuContent>
             </DropdownMenu>
           ) : (
-             <Button onClick={handleSignIn} size="sm" variant="outline">
-                Sign Up
+             <Button onClick={handleSignIn} variant="link" className="text-foreground font-bold p-0 h-auto">
+                Sign up
             </Button>
           )}
         </div>
   );
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-border/50 bg-transparent backdrop-blur-sm">
-      <div className="container flex h-16 items-center justify-between">
-        {/* Left Section: Logo */}
-        <div className="flex items-center gap-6">
-            <Logo />
+    <header className="sticky top-0 z-50 w-full border-b border-border/50 bg-background/50 backdrop-blur-sm">
+      <div className="container flex h-16 items-center">
+         {/* Left Section: Logo */}
+        <div className="flex-1 flex justify-start">
+             <Logo />
         </div>
 
         {/* Center Section: Navigation (Desktop) */}
-        <div className="hidden md:flex flex-1 items-center justify-center">
+        <div className="hidden md:flex flex-2 justify-center">
             <NavMenu />
         </div>
 
-        {/* Right Section: Auth (Desktop) & Mobile Menu Trigger */}
-        <div className="flex items-center gap-4">
-            <div className="hidden md:block">
-                <AuthButtons />
-            </div>
+        {/* Right Section: Auth (Desktop) */}
+        <div className="hidden md:flex flex-1 justify-end">
+             <AuthButtons />
+        </div>
             
-            {/* Mobile Burger Menu */}
-            <div className="md:hidden">
-                <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
-                <SheetTrigger asChild>
-                    <Button variant="ghost" size="icon">
-                    <Menu className="h-5 w-5" />
-                    <span className="sr-only">Open menu</span>
+        {/* Mobile Burger Menu */}
+        <div className="md:hidden flex-1 flex justify-end">
+            <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
+            <SheetTrigger asChild>
+                <Button variant="ghost" size="icon">
+                <Menu className="h-5 w-5" />
+                <span className="sr-only">Open menu</span>
+                </Button>
+            </SheetTrigger>
+            <SheetContent side="left">
+                <div className="flex flex-col h-full">
+                <div className="flex items-center justify-between pb-4 border-b">
+                    <Logo />
+                    <Button variant="ghost" size="icon" onClick={() => setIsMobileMenuOpen(false)}>
+                    <X className="h-5 w-5" />
+                    <span className="sr-only">Close menu</span>
                     </Button>
-                </SheetTrigger>
-                <SheetContent side="left">
-                    <div className="flex flex-col h-full">
-                    <div className="flex items-center justify-between pb-4 border-b">
-                       <Logo />
-                        <Button variant="ghost" size="icon" onClick={() => setIsMobileMenuOpen(false)}>
-                        <X className="h-5 w-5" />
-                        <span className="sr-only">Close menu</span>
-                        </Button>
-                    </div>
-                    <nav className="flex flex-col gap-4 mt-6">
-                        {navLinks.map(({ href, label }) => (
-                        <Link
-                            key={href}
-                            href={href}
-                            onClick={() => setIsMobileMenuOpen(false)}
-                            className={cn(
-                            "text-lg font-medium transition-colors hover:text-primary",
-                            pathname === href ? "text-primary" : "text-muted-foreground"
-                            )}
-                        >
-                            {label}
-                        </Link>
-                        ))}
-                    </nav>
-                     <div className="mt-auto pb-4">
-                        <AuthButtons />
-                    </div>
-                    </div>
-                </SheetContent>
-                </Sheet>
-            </div>
+                </div>
+                <NavMenu isMobile={true} />
+                    <div className="mt-auto pb-4">
+                    <AuthButtons />
+                </div>
+                </div>
+            </SheetContent>
+            </Sheet>
         </div>
       </div>
     </header>
