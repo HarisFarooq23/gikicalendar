@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Menu, University, X } from "lucide-react";
+import { Menu, X } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -38,8 +38,7 @@ export function Header() {
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container flex h-16 items-center">
         <Link href="/" className="mr-6 flex items-center space-x-2">
-          <University className="h-6 w-6 text-primary" />
-          <span className="hidden font-bold sm:inline-block">Campus Events</span>
+          <span className="hidden font-bold sm:inline-block text-primary">GikiCalendar</span>
         </Link>
         <nav className="hidden items-center space-x-6 text-sm font-medium md:flex">
           {navLinks.map(({ href, label }) => (
@@ -90,8 +89,7 @@ export function Header() {
               <div className="flex flex-col h-full">
                  <div className="flex items-center justify-between pb-4 border-b">
                   <Link href="/" className="flex items-center space-x-2" onClick={() => setIsMobileMenuOpen(false)}>
-                    <University className="h-6 w-6 text-primary" />
-                    <span className="font-bold">Campus Events</span>
+                    <span className="font-bold text-primary">GikiCalendar</span>
                   </Link>
                   <Button variant="ghost" size="icon" onClick={() => setIsMobileMenuOpen(false)}>
                     <X className="h-5 w-5" />

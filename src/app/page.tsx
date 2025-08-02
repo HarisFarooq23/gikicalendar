@@ -40,7 +40,7 @@ export default function Home() {
     <div className="container py-8 sm:py-12">
       <section className="text-center mb-12">
         <h1 className="text-4xl sm:text-5xl font-bold tracking-tight text-foreground">
-          Campus Events Calendar
+          GikiCalendar
         </h1>
         <p className="mt-4 max-w-2xl mx-auto text-lg text-muted-foreground">
           Discover what's happening at the university. Your hub for all club and society events.
