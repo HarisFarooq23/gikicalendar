@@ -44,7 +44,7 @@ export function Header() {
      <Link href="/" className="flex items-center space-x-2">
         <CalendarDays className="h-8 w-8 text-primary" />
         <span className="font-bold text-3xl whitespace-nowrap">
-            <span className={pathname === '/' ? 'text-white' : 'text-foreground'}>Giki</span>
+            <span className="text-foreground">Giki</span>
             <span className="text-primary">Calendar</span>
         </span>
     </Link>
@@ -62,7 +62,7 @@ export function Header() {
             onClick={() => isMobile && setIsMobileMenuOpen(false)}
             className={cn(
             "transition-colors hover:text-primary",
-            pathname === href ? "text-white font-bold" : "text-muted-foreground",
+            pathname === href ? "text-primary font-bold" : "text-muted-foreground",
              isMobile && "text-lg"
             )}
         >
@@ -115,23 +115,19 @@ export function Header() {
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border/50 bg-background/50 backdrop-blur-sm">
       <div className="container flex h-16 items-center">
-        {/* Left Section: Logo */}
-        <div className="flex-1 flex justify-start">
+        <div className="mr-auto flex items-center">
             <Logo />
         </div>
 
-        {/* Center Section: Navigation (Desktop) */}
-        <div className="hidden md:flex">
+        <div className="hidden md:flex items-center gap-6">
             <NavMenu />
         </div>
 
-        {/* Right Section: Auth & Mobile Burger */}
-        <div className="flex-1 flex justify-end">
+        <div className="ml-auto flex items-center gap-4">
             <div className="hidden md:flex">
                 <AuthButtons />
             </div>
             
-            {/* Mobile Burger Menu */}
             <div className="md:hidden">
               {isClient && (
                 <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
