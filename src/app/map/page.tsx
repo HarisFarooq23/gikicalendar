@@ -17,8 +17,8 @@ export default function MapPage() {
                 <Image
                     src="/gik-map.jpg"
                     alt="Campus Map"
-                    fill
-                    className="object-contain"
+                    layout="fill"
+                    objectFit="contain"
                 />
             </div>
         </div>
