@@ -1,51 +1,62 @@
 
 "use client";
 
-import React from "react";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import * as z from "zod";
-import { ShieldCheck } from "lucide-react";
+import React, { useState } from "react";
+import { signInWithPopup } from "firebase/auth";
+import { ShieldCheck, KeyRound } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { useToast } from "@/hooks/use-toast";
+import { auth, googleProvider } from "@/lib/firebase";
 
-const formSchema = z.object({
-  name: z.string().min(2, { message: "Name must be at least 2 characters." }),
-  email: z.string().email({ message: "Please enter a valid email address." }),
-  password: z.string().min(8, { message: "Password must be at least 8 characters." }),
-});
+const MODERATOR_SECRET_KEY = "23";
 
 export default function ModeratorSignupPage() {
   const { toast } = useToast();
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
-    defaultValues: {
-      name: "",
-      email: "",
-      password: "",
-    },
-  });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isVerified, setIsVerified] = useState(false);
+  const [secretKey, setSecretKey] = useState("");
 
-  const { isSubmitting } = form.formState;
+  const handleVerifyKey = () => {
+    if (secretKey === MODERATOR_SECRET_KEY) {
+      setIsVerified(true);
+      toast({
+        title: "Key Verified!",
+        description: "You can now proceed to sign up.",
+      });
+    } else {
+      toast({
+        variant: "destructive",
+        title: "Invalid Secret Key",
+        description: "The key you entered is incorrect. Please try again.",
+      });
+    }
+  };
 
-  async function onSubmit(values: z.infer<typeof formSchema>) {
-    // Here you would typically handle the moderator registration logic,
-    // which might require special permissions or an approval flow.
-    console.log("Moderator Signup Submitted", values);
-
-    // Simulate network delay
-    await new Promise(resolve => setTimeout(resolve, 1000));
-    
-    toast({
+  const signInWithGoogle = async () => {
+    setIsSubmitting(true);
+    try {
+      const result = await signInWithPopup(auth, googleProvider);
+      const user = result.user;
+      console.log("Moderator signed in: ", user);
+      toast({
         title: "Moderator Account Created!",
-        description: "You can now manage and add new events.",
-    });
-    form.reset();
-  }
+        description: `Welcome, ${user.displayName}! You now have moderator privileges.`,
+      });
+      // In a real app, you would assign a 'moderator' role to this user in your database.
+    } catch (error) {
+      console.error("Error signing in with Google", error);
+       toast({
+        variant: "destructive",
+        title: "Oh no! Something went wrong.",
+        description: "There was a problem with your sign-up. Please try again.",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
   return (
     <div className="container flex items-center justify-center py-12 sm:py-24">
@@ -56,56 +67,33 @@ export default function ModeratorSignupPage() {
           </div>
           <CardTitle className="text-3xl font-bold">Create a Moderator Account</CardTitle>
           <CardDescription className="text-lg text-muted-foreground">
-            Sign up to add and manage events on the platform.
+            {isVerified
+              ? "Sign up with Google to manage events."
+              : "Enter the secret key to become a moderator."}
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-              <FormField
-                control={form.control}
-                name="name"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Full Name</FormLabel>
-                    <FormControl>
-                      <Input placeholder="Jane Smith" {...field} disabled={isSubmitting} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="email"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Email</FormLabel>
-                    <FormControl>
-                      <Input type="email" placeholder="moderator@example.com" {...field} disabled={isSubmitting} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-               <FormField
-                control={form.control}
-                name="password"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Password</FormLabel>
-                    <FormControl>
-                      <Input type="password" placeholder="********" {...field} disabled={isSubmitting} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <Button type="submit" className="w-full h-12 text-base" disabled={isSubmitting}>
-                {isSubmitting ? "Creating Account..." : "Sign Up as Moderator"}
+          {!isVerified ? (
+            <div className="space-y-4">
+                <div className="relative">
+                    <KeyRound className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
+                    <Input
+                        type="password"
+                        placeholder="Secret Key"
+                        value={secretKey}
+                        onChange={(e) => setSecretKey(e.target.value)}
+                        className="pl-10 h-12"
+                    />
+                </div>
+              <Button onClick={handleVerifyKey} className="w-full h-12 text-base">
+                Verify Key
               </Button>
-            </form>
-          </Form>
+            </div>
+          ) : (
+            <Button onClick={signInWithGoogle} className="w-full h-12 text-base" disabled={isSubmitting}>
+              {isSubmitting ? "Signing Up..." : "Sign Up with Google"}
+            </Button>
+          )}
         </CardContent>
       </Card>
     </div>
