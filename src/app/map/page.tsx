@@ -17,7 +17,7 @@ export default function MapPage() {
             <Card className="w-full aspect-[4/3] overflow-hidden shadow-lg border">
                  <div className="relative w-full h-full">
                     <Image
-                        src="/gik-map.jpg"
+                        src="https://live.staticflickr.com/7440/9258772285_3f3a4b64b1_b.jpg"
                         alt="Campus Map"
                         fill
                         className="object-contain"
