@@ -1,5 +1,6 @@
 
 import Image from "next/image";
+import { Card } from "@/components/ui/card";
 
 export default function MapPage() {
     return (
@@ -13,14 +14,16 @@ export default function MapPage() {
                 </p>
             </section>
             
-            <div className="relative w-full aspect-[4/3] rounded-lg overflow-hidden shadow-lg border">
-                <Image
-                    src="/gik-map.jpg"
-                    alt="Campus Map"
-                    fill
-                    style={{ objectFit: "contain" }}
-                />
-            </div>
+            <Card className="w-full aspect-[4/3] overflow-hidden shadow-lg border">
+                 <div className="relative w-full h-full">
+                    <Image
+                        src="/gik-map.jpg"
+                        alt="Campus Map"
+                        fill
+                        className="object-contain"
+                    />
+                </div>
+            </Card>
         </div>
     );
 }
