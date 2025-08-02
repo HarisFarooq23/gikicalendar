@@ -42,8 +42,11 @@ export function Header() {
 
   const Logo = () => (
      <Link href="/" className="flex items-center space-x-2">
-        <AppWindow className="h-8 w-8 text-foreground" />
-        <span className="font-bold text-2xl text-foreground whitespace-nowrap">GikiCalendar</span>
+        <AppWindow className="h-8 w-8 text-primary" />
+        <span className="font-bold text-3xl whitespace-nowrap">
+            <span className="text-foreground">Giki</span>
+            <span className="text-primary">Calendar</span>
+        </span>
     </Link>
   );
 
