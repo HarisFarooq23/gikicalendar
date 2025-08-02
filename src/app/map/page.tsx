@@ -9,17 +9,16 @@ export default function MapPage() {
                     Campus Event Map
                 </h1>
                 <p className="mt-3 max-w-2xl mx-auto text-lg text-muted-foreground">
-                    Find events happening across the university with our campus map.
+                    A guide to the GIK Institute campus.
                 </p>
             </section>
             
             <div className="relative w-full aspect-[4/3] rounded-lg overflow-hidden shadow-lg border">
                 <Image
-                    src="https://placehold.co/1200x900.png"
+                    src="/gik-map.jpg"
                     alt="Campus Map"
                     fill
                     className="object-contain"
-                    data-ai-hint="university campus map"
                 />
             </div>
         </div>
