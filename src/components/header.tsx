@@ -30,11 +30,6 @@ export function Header() {
   const pathname = usePathname();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [isClient, setIsClient] = useState(false);
-
-  useEffect(() => {
-    setIsClient(true);
-  }, []);
 
   const handleSignIn = () => setIsAuthenticated(true);
   const handleSignOut = () => setIsAuthenticated(false);
@@ -97,20 +92,20 @@ export function Header() {
 
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border/50 bg-background/50 backdrop-blur-sm">
-      <div className="container flex h-16 items-center">
+      <div className="container flex h-16 items-center justify-between">
          {/* Left Section: Logo */}
-        <div className="flex-1 flex justify-start">
+        <div className="flex justify-start">
              <Logo />
         </div>
 
         {/* Right Section: Navigation & Auth (Desktop) */}
-        <div className="hidden md:flex flex-1 justify-end items-center gap-8">
+        <div className="hidden md:flex items-center gap-8">
             <NavMenu />
             <AuthButtons />
         </div>
             
         {/* Mobile Burger Menu */}
-        <div className="md:hidden flex-1 flex justify-end">
+        <div className="md:hidden flex justify-end">
             <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
             <SheetTrigger asChild>
                 <Button variant="ghost" size="icon">
