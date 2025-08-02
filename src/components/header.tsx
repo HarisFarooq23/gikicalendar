@@ -19,8 +19,8 @@ import {
 const navLinks = [
   { href: "/", label: "Home" },
   { href: "/events", label: "Events" },
+  { href: "/map", label: "Map" },
   { href: "/about", label: "About Us" },
-  { href: "/subscribe", label: "Subscribe" },
 ];
 
 export function Header() {
@@ -83,7 +83,9 @@ export function Header() {
     <header className="sticky top-0 z-50 w-full border-b border-border/50 bg-background/50 backdrop-blur-sm">
       <div className="container flex h-16 items-center justify-between">
         <div className="flex items-center gap-6">
-            <Logo />
+            <div className="md:pl-8">
+              <Logo />
+            </div>
         </div>
 
         <div className="hidden md:flex items-center gap-6">
