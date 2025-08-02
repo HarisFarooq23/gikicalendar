@@ -81,8 +81,8 @@ export function Header() {
 
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border/50 bg-background/50 backdrop-blur-sm">
-      <div className="container flex h-16 items-center">
-        <div className="mr-auto flex items-center">
+      <div className="container flex h-16 items-center justify-between">
+        <div className="flex items-center gap-6">
             <Logo />
         </div>
 
@@ -90,7 +90,7 @@ export function Header() {
             <NavMenu />
         </div>
 
-        <div className="ml-auto flex items-center gap-4">
+        <div className="flex items-center gap-4">
             <div className="hidden md:flex">
                 <AuthButtons />
             </div>
