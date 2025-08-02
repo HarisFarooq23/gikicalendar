@@ -42,7 +42,7 @@ export function Header() {
 
   const Logo = () => (
      <Link href="/" className="flex items-center space-x-2">
-        <AppWindow className="h-8 w-8 text-primary" />
+        <AppWindow className="h-8 w-8 text-foreground" />
         <span className="font-bold text-3xl whitespace-nowrap">
             <span className="text-foreground">Giki</span>
             <span className="text-primary">Calendar</span>
@@ -62,7 +62,7 @@ export function Header() {
             onClick={() => isMobile && setIsMobileMenuOpen(false)}
             className={cn(
             "transition-colors hover:text-primary",
-            pathname === href ? "text-primary font-bold" : "text-foreground",
+            pathname === href ? "text-foreground font-bold" : "text-muted-foreground",
              isMobile && "text-lg"
             )}
         >
