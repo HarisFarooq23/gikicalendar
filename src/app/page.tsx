@@ -1,3 +1,4 @@
+
 "use client";
 
 import * as React from "react";
@@ -10,12 +11,15 @@ import { Card } from "@/components/ui/card";
 import { format } from "date-fns";
 
 export default function Home() {
-  const [date, setDate] = React.useState<Date | undefined>(new Date());
+  const [date, setDate] = React.useState<Date | undefined>(undefined);
   const [events, setEvents] = React.useState<Event[]>([]);
   const [selectedDateEvents, setSelectedDateEvents] = React.useState<Event[]>([]);
   const [isSheetOpen, setIsSheetOpen] = React.useState(false);
   
   React.useEffect(() => {
+    // Set date only on the client to avoid hydration mismatch
+    setDate(new Date());
+
     const fetchEvents = async () => {
       const allEvents = await getEvents();
       setEvents(allEvents);
@@ -88,6 +92,7 @@ export default function Home() {
                 );
               },
             }}
+            disabled={!date}
           />
         </Card>
       </div>
