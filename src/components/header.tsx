@@ -1,7 +1,7 @@
 
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Menu, X, School, ArrowRight } from "lucide-react";
@@ -13,11 +13,8 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 const navLinks = [
   { href: "/", label: "Home" },
@@ -29,16 +26,6 @@ const navLinks = [
 export function Header() {
   const pathname = usePathname();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [isClient, setIsClient] = useState(false);
-  
-  useEffect(() => {
-    setIsClient(true);
-  }, []);
-
-
-  const handleSignIn = () => setIsAuthenticated(true);
-  const handleSignOut = () => setIsAuthenticated(false);
 
   const Logo = () => (
      <Link href="/" className="flex items-center space-x-2">
@@ -74,42 +61,23 @@ export function Header() {
 
   const AuthButtons = () => (
      <div className="flex items-center gap-4">
-          {isAuthenticated ? (
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Avatar className="h-9 w-9 cursor-pointer">
-                  <AvatarImage src="https://placehold.co/40x40.png" alt="User avatar" />
-                  <AvatarFallback>U</AvatarFallback>
-                </Avatar>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end">
-                <DropdownMenuLabel>My Account</DropdownMenuLabel>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem>Profile</DropdownMenuItem>
-                <DropdownMenuItem>Settings</DropdownMenuItem>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem onClick={handleSignOut}>Sign out</DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
-          ) : (
-             <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                    <Button>
-                        Sign Up
-                        <ArrowRight />
-                    </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent align="end">
-                    <DropdownMenuItem asChild>
-                        <Link href="/signup/user">User Signup</Link>
-                    </DropdownMenuItem>
-                    <DropdownMenuItem asChild>
-                        <Link href="/signup/moderator">Moderator Signup</Link>
-                    </DropdownMenuItem>
-                </DropdownMenuContent>
-             </DropdownMenu>
-          )}
-        </div>
+        <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+                <Button>
+                    Sign Up
+                    <ArrowRight />
+                </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+                <DropdownMenuItem asChild>
+                    <Link href="/signup/user">User Signup</Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem asChild>
+                    <Link href="/signup/moderator">Moderator Signup</Link>
+                </DropdownMenuItem>
+            </DropdownMenuContent>
+        </DropdownMenu>
+    </div>
   );
 
   return (
@@ -129,7 +97,6 @@ export function Header() {
             </div>
             
             <div className="md:hidden">
-              {isClient && (
                 <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
                 <SheetTrigger asChild>
                     <Button variant="ghost" size="icon">
@@ -153,7 +120,6 @@ export function Header() {
                     </div>
                 </SheetContent>
                 </Sheet>
-              )}
             </div>
         </div>
             
