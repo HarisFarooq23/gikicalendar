@@ -1,3 +1,4 @@
+
 import Image from "next/image";
 import {
   Sheet,
@@ -9,9 +10,11 @@ import {
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Badge } from "@/components/ui/badge";
 import type { Event } from "@/lib/types";
-import { format } from "date-fns";
+import { format, formatISO } from "date-fns";
 import { cn } from "@/lib/utils";
 import { ImageFallback } from "./image-fallback";
+import { Button } from "./ui/button";
+import { CalendarPlus } from "lucide-react";
 
 type EventDetailsProps = {
   events: Event[];
@@ -26,6 +29,27 @@ const categoryStyles: Record<Event['category'], string> = {
     Cultural: "bg-yellow-500/10 text-yellow-500 border-yellow-500/20",
     Workshop: "bg-pink-500/10 text-pink-500 border-pink-500/20",
 };
+
+const createGoogleCalendarUrl = (event: Event) => {
+    const formatGoogleDate = (date: Date) => {
+        return formatISO(date, { format: 'basic' }).replace(/[-:]/g, '');
+    }
+
+    // Assuming events are 1 hour long for the end time
+    const startDate = formatGoogleDate(event.date);
+    const endDate = formatGoogleDate(new Date(event.date.getTime() + 60 * 60 * 1000));
+
+    const params = new URLSearchParams({
+        action: 'TEMPLATE',
+        text: event.title,
+        dates: `${startDate}/${endDate}`,
+        details: event.description,
+        location: event.location,
+    });
+
+    return `https://www.google.com/calendar/render?${params.toString()}`;
+}
+
 
 export function EventDetails({ events, isOpen, onOpenChange }: EventDetailsProps) {
   if (!events.length) return null;
@@ -47,8 +71,9 @@ export function EventDetails({ events, isOpen, onOpenChange }: EventDetailsProps
             <div className="px-6 pb-6 space-y-6">
                 {events.map((event) => {
                   const isPlaceholder = event.image.includes('placehold.co');
+                  const googleCalendarUrl = createGoogleCalendarUrl(event);
                   return (
-                    <div key={event.id} className="space-y-3">
+                    <div key={event.id} className="space-y-4 border-b border-border pb-6 last:border-b-0 last:pb-0">
                         <div className="relative aspect-video w-full overflow-hidden rounded-lg">
                            {isPlaceholder ? (
                              <ImageFallback text={event.title} />
@@ -63,9 +88,9 @@ export function EventDetails({ events, isOpen, onOpenChange }: EventDetailsProps
                            )}
                         </div>
                         <div>
-                            <div className="flex items-center gap-4">
-                                <h3 className="text-xl font-semibold">{event.title}</h3>
-                                <Badge variant="outline" className={cn(categoryStyles[event.category])}>
+                            <div className="flex items-start justify-between gap-4">
+                                <h3 className="text-xl font-semibold flex-grow">{event.title}</h3>
+                                <Badge variant="outline" className={cn("shrink-0", categoryStyles[event.category])}>
                                   {event.category}
                                 </Badge>
                             </div>
@@ -73,7 +98,20 @@ export function EventDetails({ events, isOpen, onOpenChange }: EventDetailsProps
                         </div>
                         
                         <p className="text-sm text-foreground">{event.description}</p>
-                        <p className="text-xs text-muted-foreground">{event.location}</p>
+                        
+                        <div className="space-y-3">
+                            <p className="text-xs text-muted-foreground">{event.location}</p>
+                             <Button
+                                variant="outline"
+                                size="sm"
+                                asChild
+                              >
+                                <a href={googleCalendarUrl} target="_blank" rel="noopener noreferrer">
+                                  <CalendarPlus className="mr-2 h-4 w-4" />
+                                  Add to Google Calendar
+                                </a>
+                              </Button>
+                        </div>
                     </div>
                   )
                 })}
