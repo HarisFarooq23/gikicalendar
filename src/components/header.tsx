@@ -20,9 +20,7 @@ import { useAuth } from "@/hooks/use-auth";
 const navLinks = [
   { href: "/", label: "Home" },
   { href: "/events", label: "Events" },
-  { href: "/societies", label: "Societies" },
-  { href: "/map", label: "Map" },
-  { href: "/about", label: "About Us" },
+  { href: "/subscribe", label: "Subscribe" },
 ];
 
 export function Header() {

@@ -18,8 +18,6 @@ import { format } from 'date-fns';
 import { useToast } from '@/hooks/use-toast';
 import { cn } from '@/lib/utils';
 import { Event } from '@/lib/types';
-import { getSocieties } from '@/lib/societies';
-import type { Society } from '@/lib/types';
 
 const categories: Event['category'][] = ['Academic', 'Social', 'Sports', 'Cultural', 'Workshop'];
 
@@ -37,11 +35,6 @@ type AddEventFormValues = z.infer<typeof addEventSchema>;
 
 export default function AddEventPage() {
   const { toast } = useToast();
-  const [societies, setSocieties] = React.useState<Society[]>([]);
-
-  React.useEffect(() => {
-    getSocieties().then(setSocieties);
-  }, []);
 
   const form = useForm<AddEventFormValues>({
     resolver: zodResolver(addEventSchema),
@@ -50,6 +43,7 @@ export default function AddEventPage() {
       description: '',
       location: '',
       image: '',
+      society: ''
     },
   });
 
@@ -177,18 +171,9 @@ export default function AddEventPage() {
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>Hosting Society</FormLabel>
-                      <Select onValueChange={field.onChange} defaultValue={field.value}>
-                        <FormControl>
-                          <SelectTrigger>
-                            <SelectValue placeholder="Select a society" />
-                          </Trigger>
-                        </FormControl>
-                        <SelectContent>
-                          {societies.map(society => (
-                            <SelectItem key={society.id} value={society.name}>{society.name}</SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
+                      <FormControl>
+                        <Input placeholder="e.g., Computer Science Society" {...field} />
+                      </FormControl>
                       <FormMessage />
                     </FormItem>
                   )}
