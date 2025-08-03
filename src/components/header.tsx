@@ -8,7 +8,7 @@ import { Menu, X, ArrowRight, LogOut } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { Sheet, SheetContent, SheetTrigger, SheetClose } from "@/components/ui/sheet";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -64,22 +64,22 @@ export function Header() {
     </nav>
   );
 
-  const AuthButtons = () => {
+  const AuthButtons = ({ inMobileSheet = false }: { inMobileSheet?: boolean }) => {
     if (isLoggedIn) {
       return (
-        <Button onClick={logout} variant="outline">
+        <Button onClick={logout} variant="outline" className={inMobileSheet ? "w-full" : ""}>
           Logout
-          <LogOut />
+          <LogOut className="ml-2 h-4 w-4" />
         </Button>
       );
     }
     return (
-     <div className="flex items-center gap-4">
+     <div className={cn("flex items-center gap-4", inMobileSheet && "w-full flex-col")}>
         <DropdownMenu>
             <DropdownMenuTrigger asChild>
-                <Button>
+                <Button className={inMobileSheet ? "w-full" : ""}>
                     Sign Up
-                    <ArrowRight />
+                    <ArrowRight className="ml-2 h-4 w-4" />
                 </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
@@ -123,17 +123,21 @@ export function Header() {
                 </SheetTrigger>
                 <SheetContent side="left">
                     <div className="flex flex-col h-full">
-                    <div className="flex items-center justify-between pb-4 border-b">
-                        <Logo />
-                        <Button variant="ghost" size="icon" onClick={() => setIsMobileMenuOpen(false)}>
-                        <X className="h-5 w-5" />
-                        <span className="sr-only">Close menu</span>
-                        </Button>
-                    </div>
-                    <NavMenu isMobile={true} />
-                        <div className="mt-auto pb-4">
-                        <AuthButtons />
-                    </div>
+                        <div className="flex items-center justify-between pb-4 border-b">
+                            <Logo />
+                            <SheetClose asChild>
+                                <Button variant="ghost" size="icon">
+                                    <X className="h-5 w-5" />
+                                    <span className="sr-only">Close menu</span>
+                                </Button>
+                            </SheetClose>
+                        </div>
+                        <div className="flex flex-col flex-grow justify-between">
+                            <NavMenu isMobile={true} />
+                            <div className="mt-auto pb-4">
+                                <AuthButtons inMobileSheet={true} />
+                            </div>
+                        </div>
                     </div>
                 </SheetContent>
                 </Sheet>
