@@ -25,7 +25,7 @@ export default function RootLayout({
         <div 
           className="absolute top-0 left-0 -z-10 h-full w-full" 
           style={{
-            background: 'radial-gradient(ellipse at top right, #1e1b34, #000000)'
+            background: 'radial-gradient(circle at top left, rgba(136, 78, 247, 0.2), transparent 40%), radial-gradient(circle at bottom right, rgba(0, 183, 255, 0.2), transparent 40%), #000000',
           }}
         />
         <Header />
