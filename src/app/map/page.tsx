@@ -15,7 +15,7 @@ export default function MapPage() {
             
             <div className="w-full max-w-5xl aspect-video relative shadow-lg rounded-lg overflow-hidden border">
                 <Image
-                    src="/map.jpg"
+                    src="/map.png"
                     alt="Campus Map"
                     fill
                     className="object-contain"
