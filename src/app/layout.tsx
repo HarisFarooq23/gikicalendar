@@ -21,9 +21,14 @@ export default function RootLayout({
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet" />
       </head>
-      <body className="font-body antialiased min-h-screen bg-background flex flex-col">
+      <body className="font-body antialiased min-h-screen bg-background flex flex-col relative">
+        <div className="absolute top-0 left-0 -z-10">
+            <div className="absolute top-[30vh] left-[5vw] h-72 w-72 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 opacity-20 blur-3xl filter" />
+            <div className="absolute top-[20vh] right-[10vw] h-52 w-52 rounded-full bg-gradient-to-br from-blue-400 to-purple-500 opacity-60 blur-2xl filter" />
+            <div className="absolute top-[60vh] left-[30vw] h-40 w-40 rounded-full bg-gradient-to-br from-blue-400 to-purple-500 opacity-50 blur-2xl filter" />
+        </div>
         <Header />
-        <main className="flex-grow">{children}</main>
+        <main className="flex-grow z-10">{children}</main>
         <Footer />
         <Toaster />
       </body>
