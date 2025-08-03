@@ -4,7 +4,7 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Menu, X, ArrowRight } from "lucide-react";
+import { Menu, X, ArrowRight, LogOut } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -15,6 +15,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { useAuth } from "@/hooks/use-auth";
 
 const navLinks = [
   { href: "/", label: "Home" },
@@ -27,6 +28,10 @@ const navLinks = [
 export function Header() {
   const pathname = usePathname();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const { isLoggedIn, isModerator, logout } = useAuth();
+
+  const moderatorLinks = isModerator ? [{ href: "/admin/add-event", label: "Add Event" }] : [];
+  const allNavLinks = [...navLinks, ...moderatorLinks];
 
   const Logo = () => (
      <Link href="/" className="flex items-center">
@@ -42,7 +47,7 @@ export function Header() {
         "flex items-center gap-6 text-sm font-medium",
         isMobile && "flex-col items-start gap-4 mt-6"
     )}>
-        {navLinks.map(({ href, label }) => (
+        {allNavLinks.map(({ href, label }) => (
         <Link
             key={href}
             href={href}
@@ -59,7 +64,16 @@ export function Header() {
     </nav>
   );
 
-  const AuthButtons = () => (
+  const AuthButtons = () => {
+    if (isLoggedIn) {
+      return (
+        <Button onClick={logout} variant="outline">
+          Logout
+          <LogOut />
+        </Button>
+      );
+    }
+    return (
      <div className="flex items-center gap-4">
         <DropdownMenu>
             <DropdownMenuTrigger asChild>
@@ -78,7 +92,8 @@ export function Header() {
             </DropdownMenuContent>
         </DropdownMenu>
     </div>
-  );
+    )
+  };
 
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border/50 bg-background/50 backdrop-blur-sm">

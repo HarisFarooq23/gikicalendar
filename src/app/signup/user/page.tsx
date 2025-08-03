@@ -3,21 +3,28 @@
 
 import React from "react";
 import { UserPlus } from "lucide-react";
+import { useRouter } from 'next/navigation';
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
+import { useAuth } from "@/hooks/use-auth";
 
 export default function UserSignupPage() {
   const { toast } = useToast();
+  const { login } = useAuth();
+  const router = useRouter();
+
 
   const handleGoogleSignup = async () => {
     // This is where you would implement Firebase Google Authentication.
-    // For now, we'll just show a placeholder notification.
+    // For now, we'll just simulate a login and show a notification.
+    login(false); // Login as a regular user
     toast({
-        title: "Coming Soon!",
-        description: "Google Sign-Up functionality will be implemented soon.",
+        title: "Signed In!",
+        description: "You have successfully signed up.",
     });
+    router.push('/');
   };
 
   return (

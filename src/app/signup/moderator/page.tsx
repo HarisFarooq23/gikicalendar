@@ -6,12 +6,15 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { ShieldCheck, KeyRound } from "lucide-react";
+import { useRouter } from 'next/navigation';
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { useToast } from "@/hooks/use-toast";
+import { useAuth } from "@/hooks/use-auth";
+
 
 const moderatorSignupSchema = z.object({
   secretKey: z.string().min(1, { message: "Secret key is required." }),
@@ -21,6 +24,9 @@ type ModeratorSignupFormValues = z.infer<typeof moderatorSignupSchema>;
 
 export default function ModeratorSignupPage() {
   const { toast } = useToast();
+  const { login } = useAuth();
+  const router = useRouter();
+
 
   const form = useForm<ModeratorSignupFormValues>({
     resolver: zodResolver(moderatorSignupSchema),
@@ -31,12 +37,13 @@ export default function ModeratorSignupPage() {
 
   const onSubmit = (data: ModeratorSignupFormValues) => {
     if (data.secretKey === "23") {
+      login(true); // Login as moderator
       toast({
         title: "Success!",
-        description: "Secret key verified. You can now proceed.",
+        description: "Secret key verified. You now have moderator privileges.",
         variant: "default",
       });
-      // Here you would typically redirect the user or grant moderator privileges
+      router.push('/');
     } else {
       toast({
         title: "Error",
@@ -53,9 +60,9 @@ export default function ModeratorSignupPage() {
           <div className="mx-auto bg-primary/10 p-3 rounded-full w-fit mb-4">
             <ShieldCheck className="h-8 w-8 text-primary" />
           </div>
-          <CardTitle className="text-3xl font-bold">Create a Moderator Account</CardTitle>
+          <CardTitle className="text-3xl font-bold">Moderator Verification</CardTitle>
           <CardDescription className="text-lg text-muted-foreground">
-            Enter the secret key to become a moderator.
+            Enter the secret key to gain moderator privileges.
           </CardDescription>
         </CardHeader>
         <CardContent>
