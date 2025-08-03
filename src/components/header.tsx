@@ -21,6 +21,7 @@ const navLinks = [
   { href: "/", label: "Home" },
   { href: "/events", label: "Events" },
   { href: "/subscribe", label: "Subscribe" },
+  { href: "/admin/add-event", label: "Add Event" },
 ];
 
 export function Header() {
@@ -29,8 +30,7 @@ export function Header() {
   const { isLoggedIn, isModerator, logout } = useAuth();
   const router = useRouter();
 
-  const moderatorLinks = isModerator ? [{ href: "/admin/add-event", label: "Add Event" }] : [];
-  const allNavLinks = [...navLinks, ...moderatorLinks];
+  const allNavLinks = [...navLinks];
 
   const Logo = () => (
      <Link href="/" className="flex items-center">
