@@ -84,11 +84,11 @@ export function Header() {
                 </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
-                <DropdownMenuItem onSelect={() => router.push('/signup/user')}>
-                    User Signup
+                <DropdownMenuItem>
+                  <div onClick={() => router.push('/signup/user')} className="w-full">User Signup</div>
                 </DropdownMenuItem>
-                <DropdownMenuItem onSelect={() => router.push('/signup/moderator')}>
-                    Moderator Signup
+                <DropdownMenuItem>
+                  <div onClick={() => router.push('/signup/moderator')} className="w-full">Moderator Signup</div>
                 </DropdownMenuItem>
             </DropdownMenuContent>
         </DropdownMenu>
