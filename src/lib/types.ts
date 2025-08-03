@@ -1,3 +1,4 @@
+
 export type Event = {
   id: string;
   title: string;
@@ -7,4 +8,10 @@ export type Event = {
   location: string;
   image: string;
   society: string;
+};
+
+export type Society = {
+  id: string;
+  name: string;
+  description: string;
 };
