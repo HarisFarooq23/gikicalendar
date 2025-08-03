@@ -1,9 +1,10 @@
+
 import type { Event } from '@/lib/types';
 import { addDays, subDays } from 'date-fns';
 
 const today = new Date();
 
-export const mockEvents: Event[] = [
+export let mockEvents: Event[] = [
   {
     id: '1',
     title: 'Annual Tech Summit',
@@ -98,9 +99,15 @@ export const mockEvents: Event[] = [
 
 export const getEvents = async (): Promise<Event[]> => {
   // In a real app, you would fetch this from Firebase
-  return new Promise(resolve => setTimeout(() => resolve(mockEvents), 500));
+  return new Promise(resolve => setTimeout(() => resolve([...mockEvents]), 500));
 };
 
 export const getEventById = async (id: string): Promise<Event | undefined> => {
   return new Promise(resolve => setTimeout(() => resolve(mockEvents.find(event => event.id === id)), 200));
+};
+
+export const addEvent = async (event: Omit<Event, 'id'>): Promise<Event> => {
+  const newEvent = { ...event, id: String(mockEvents.length + 1) };
+  mockEvents = [newEvent, ...mockEvents];
+  return new Promise(resolve => setTimeout(() => resolve(newEvent), 200));
 };

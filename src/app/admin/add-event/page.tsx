@@ -18,6 +18,8 @@ import { format } from 'date-fns';
 import { useToast } from '@/hooks/use-toast';
 import { cn } from '@/lib/utils';
 import { Event } from '@/lib/types';
+import { addEvent } from '@/lib/events';
+import { useRouter } from 'next/navigation';
 
 const categories: Event['category'][] = ['Academic', 'Social', 'Sports', 'Cultural', 'Workshop'];
 
@@ -36,6 +38,7 @@ type AddEventFormValues = z.infer<typeof addEventSchema>;
 
 export default function AddEventPage() {
   const { toast } = useToast();
+  const router = useRouter();
 
   const form = useForm<AddEventFormValues>({
     resolver: zodResolver(addEventSchema),
@@ -48,19 +51,23 @@ export default function AddEventPage() {
     },
   });
 
-  const onSubmit = (data: AddEventFormValues) => {
+  const onSubmit = async (data: AddEventFormValues) => {
     // Combine date and time
     const [hours, minutes] = data.time.split(':').map(Number);
     const eventDateTime = new Date(data.date);
     eventDateTime.setHours(hours, minutes);
 
-    console.log('New Event Data:', { ...data, date: eventDateTime });
-    // Here you would typically send the data to your backend/Firebase to save the new event
+    await addEvent({
+      ...data,
+      date: eventDateTime,
+    });
+    
     toast({
       title: 'Success!',
       description: `Event "${data.title}" has been created successfully.`,
     });
     form.reset();
+    router.push('/events');
   };
   
    const onImageChange = (e: React.ChangeEvent<HTMLInputElement>, fieldChange: (file: File) => void) => {
