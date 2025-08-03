@@ -85,7 +85,7 @@ export default function Home() {
                 return (
                   <div className="relative h-full w-full flex items-center justify-center">
                     <span>{format(date, "d")}</span>
-                    {hasEvent && <div className="absolute bottom-2 h-1.5 w-1.5 rounded-full bg-accent" />}
+                    {hasEvent && <div className="absolute bottom-2 h-1.5 w-1.5 rounded-full bg-primary" />}
                   </div>
                 );
               },
