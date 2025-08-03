@@ -32,7 +32,7 @@ export default function ModeratorSignupPage() {
                         className="pl-10 h-12"
                     />
                 </div>
-              <Button className="w-full h-12 text-base" disabled>
+              <Button className="w-full h-12 text-base">
                 Verify Key
               </Button>
             </div>

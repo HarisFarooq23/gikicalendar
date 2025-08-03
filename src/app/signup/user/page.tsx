@@ -22,7 +22,7 @@ export default function UserSignupPage() {
           </CardDescription>
         </CardHeader>
         <CardContent>
-            <Button className="w-full h-12 text-base" disabled>
+            <Button className="w-full h-12 text-base">
                 Sign Up with Google
             </Button>
         </CardContent>
