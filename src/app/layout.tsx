@@ -22,11 +22,12 @@ export default function RootLayout({
         <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet" />
       </head>
       <body className="font-body antialiased min-h-screen bg-background flex flex-col relative">
-        <div className="absolute top-0 left-0 -z-10">
-            <div className="absolute top-[20vh] left-[-5vw] h-[44rem] w-[44rem] rounded-full bg-gradient-to-br from-blue-500 to-purple-600 opacity-20 blur-3xl filter" />
-            <div className="absolute top-[10vh] right-[5vw] h-[34rem] w-[34rem] rounded-full bg-gradient-to-br from-blue-400 to-purple-500 opacity-60 blur-2xl filter" />
-            <div className="absolute top-[50vh] left-[25vw] h-[28rem] w-[28rem] rounded-full bg-gradient-to-br from-blue-400 to-purple-500 opacity-50 blur-2xl filter" />
-        </div>
+        <div 
+          className="absolute top-0 left-0 -z-10 h-full w-full" 
+          style={{
+            background: 'radial-gradient(ellipse at top right, #1e1b34, #000000)'
+          }}
+        />
         <Header />
         <main className="flex-grow z-10">{children}</main>
         <Footer />
