@@ -3,7 +3,7 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { Menu, X, ArrowRight, LogOut } from "lucide-react";
 
 import { cn } from "@/lib/utils";
@@ -29,6 +29,7 @@ export function Header() {
   const pathname = usePathname();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const { isLoggedIn, isModerator, logout } = useAuth();
+  const router = useRouter();
 
   const moderatorLinks = isModerator ? [{ href: "/admin/add-event", label: "Add Event" }] : [];
   const allNavLinks = [...navLinks, ...moderatorLinks];
@@ -83,11 +84,11 @@ export function Header() {
                 </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
-                <DropdownMenuItem asChild>
-                    <Link href="/signup/user">User Signup</Link>
+                <DropdownMenuItem onSelect={() => router.push('/signup/user')}>
+                    User Signup
                 </DropdownMenuItem>
-                <DropdownMenuItem asChild>
-                    <Link href="/signup/moderator">Moderator Signup</Link>
+                <DropdownMenuItem onSelect={() => router.push('/signup/moderator')}>
+                    Moderator Signup
                 </DropdownMenuItem>
             </DropdownMenuContent>
         </DropdownMenu>
