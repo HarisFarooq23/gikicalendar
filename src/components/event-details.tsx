@@ -70,7 +70,8 @@ export function EventDetails({ events, isOpen, onOpenChange }: EventDetailsProps
         <ScrollArea className="flex-grow">
             <div className="px-6 pb-6 space-y-6">
                 {events.map((event) => {
-                  const isPlaceholder = event.image.includes('placehold.co');
+                  const isPlaceholder = typeof event.image === 'string' && event.image.includes('placehold.co');
+                  const imageUrl = event.image instanceof File ? URL.createObjectURL(event.image) : event.image;
                   const googleCalendarUrl = createGoogleCalendarUrl(event);
                   return (
                     <div key={event.id} className="space-y-4 border-b border-border pb-6 last:border-b-0 last:pb-0">
@@ -79,7 +80,7 @@ export function EventDetails({ events, isOpen, onOpenChange }: EventDetailsProps
                              <ImageFallback text={event.title} />
                            ) : (
                              <Image
-                                src={event.image}
+                                src={imageUrl}
                                 alt={event.title}
                                 fill
                                 className="object-cover"

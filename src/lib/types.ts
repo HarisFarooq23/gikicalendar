@@ -6,7 +6,7 @@ export type Event = {
   date: Date;
   category: 'Academic' | 'Social' | 'Sports' | 'Cultural' | 'Workshop';
   location: string;
-  image: string;
+  image: string | File;
   society: string;
 };
 

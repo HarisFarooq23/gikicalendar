@@ -22,7 +22,8 @@ const categoryStyles: Record<Event['category'], string> = {
 
 
 export function EventCard({ event }: EventCardProps) {
-  const isPlaceholder = event.image.includes('placehold.co');
+  const isPlaceholder = typeof event.image === 'string' && event.image.includes('placehold.co');
+  const imageUrl = event.image instanceof File ? URL.createObjectURL(event.image) : event.image;
 
   return (
     <Card className="w-full overflow-hidden transition-all hover:shadow-lg hover:-translate-y-1 duration-300 flex flex-col">
@@ -32,7 +33,7 @@ export function EventCard({ event }: EventCardProps) {
              <ImageFallback text={event.title} />
            ) : (
              <Image
-                src={event.image}
+                src={imageUrl}
                 alt={event.title}
                 fill
                 className="object-cover"
