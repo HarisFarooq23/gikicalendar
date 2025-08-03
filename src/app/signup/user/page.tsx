@@ -6,8 +6,19 @@ import { UserPlus } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { useToast } from "@/hooks/use-toast";
 
 export default function UserSignupPage() {
+  const { toast } = useToast();
+
+  const handleGoogleSignup = async () => {
+    // This is where you would implement Firebase Google Authentication.
+    // For now, we'll just show a placeholder notification.
+    toast({
+        title: "Coming Soon!",
+        description: "Google Sign-Up functionality will be implemented soon.",
+    });
+  };
 
   return (
     <div className="container flex items-center justify-center py-12 sm:py-24">
@@ -22,7 +33,7 @@ export default function UserSignupPage() {
           </CardDescription>
         </CardHeader>
         <CardContent>
-            <Button className="w-full h-12 text-base">
+            <Button onClick={handleGoogleSignup} className="w-full h-12 text-base">
                 Sign Up with Google
             </Button>
         </CardContent>
